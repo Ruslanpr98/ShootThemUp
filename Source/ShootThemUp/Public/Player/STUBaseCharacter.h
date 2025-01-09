@@ -38,8 +38,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	private:
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+    bool isCharSprinting() const;
+
+private:
+	  bool bPressedSprint = false;
+      bool isMovingForward = false;
 
 	void MoveXAxis(float Amount);
     void MoveYAxis(float Amount);
+    void StartSprint();
+    void StopSprint();
 };

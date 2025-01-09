@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASTUBaseCharacter::ASTUBaseCharacter()
@@ -45,12 +46,45 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
     PlayerInputComponent->BindAxis("MoveYAxis", this, &ASTUBaseCharacter::MoveYAxis);
     PlayerInputComponent->BindAxis("LookUp", this, &ASTUBaseCharacter::AddControllerPitchInput);
     PlayerInputComponent->BindAxis("TurnAround", this, &ASTUBaseCharacter::AddControllerYawInput);
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASTUBaseCharacter::Jump);
+    PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ASTUBaseCharacter::StartSprint);
+    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ASTUBaseCharacter::StopSprint);
 }
 
 void ASTUBaseCharacter::MoveXAxis(float Amount) {
+    isMovingForward = Amount > 0.0f;
     AddMovementInput(GetActorForwardVector(), Amount);
 }
 
 void ASTUBaseCharacter::MoveYAxis(float Amount) {
     AddMovementInput(GetActorRightVector(), Amount);
+}
+
+void ASTUBaseCharacter::StopSprint() {
+
+    bPressedSprint = false;
+    UCharacterMovementComponent *CharMovement = Cast<UCharacterMovementComponent>(GetCharacterMovement());
+
+    if (!CharMovement) {
+        return;
+    }
+    CharMovement->MaxWalkSpeed = 600.0f;
+}
+
+void ASTUBaseCharacter::StartSprint() {
+    if (!isMovingForward) {
+        return;
+    }
+    bPressedSprint = true;
+    UCharacterMovementComponent *CharMovement = Cast<UCharacterMovementComponent>(GetCharacterMovement());
+
+    if (!CharMovement) {
+        return;
+    } 
+    CharMovement->MaxWalkSpeed = 1000.0f;
+}
+
+
+bool ASTUBaseCharacter::isCharSprinting() const {
+    return bPressedSprint && isMovingForward && (!GetVelocity().IsZero());
 }
