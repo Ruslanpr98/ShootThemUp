@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     bool isCharSprinting() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+    float GetMovementDirection() const;
+
 private:
 	  bool bPressedSprint = false;
       bool isMovingForward = false;
