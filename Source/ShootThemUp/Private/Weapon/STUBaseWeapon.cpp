@@ -35,7 +35,6 @@ void ASTUBaseWeapon::MakeShot() {
         return;
 	}
 
-
     FVector TraceStart, TraceEnd;
 
     if (!GetTraceData(TraceStart, TraceEnd)) return;
@@ -46,6 +45,8 @@ void ASTUBaseWeapon::MakeShot() {
 	if (HitResult.bBlockingHit) {
         DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0, 3.0f);
         DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 24, FColor::Red, false, 5.0f);
+
+        MakeDamage(HitResult);
 
 		UE_LOG(LogBaseWeapon, Display, TEXT("Bone: %s"), *HitResult.BoneName.ToString());
     } else {
@@ -108,4 +109,12 @@ void ASTUBaseWeapon::MakeHit(FHitResult &HitResult, const FVector &TraceStart, c
     CollisionParams.AddIgnoredActor(GetOwner());
 
     GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionParams);
+}
+
+void ASTUBaseWeapon::MakeDamage(FHitResult &HitResult) {
+
+    const auto DamagedActor = HitResult.GetActor();
+
+
+    DamagedActor->TakeDamage(DamageValue, FDamageEvent(), GetPlayerController(), this);
 }
