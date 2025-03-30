@@ -8,6 +8,21 @@
 
 class USkeletalMeshComponent;
 
+USTRUCT(BlueprintType)
+struct FAmmoData {
+
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    int32 Bullets;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon", meta = (EditCondition = "!Infinite"))
+    int32 Clips;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    bool Infinite;
+};
+
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
 {
@@ -23,14 +38,20 @@ public:
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-  USkeletalMeshComponent *WeaponMesh;
-	// Called when the game starts or when spawned
+	USkeletalMeshComponent *WeaponMesh;
 
-  UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-  FName MuzzleSocketName = "MuzzleSocket";
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FName MuzzleSocketName = "MuzzleSocket";
 
-  UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-  float TraceMaxDistance = 1500.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float TraceMaxDistance = 1500.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    FAmmoData DefaultAmmo{
+		DefaultAmmo.Bullets = 15,
+		DefaultAmmo.Clips = 10,
+		DefaultAmmo.Infinite = false
+	};
 
 	virtual void BeginPlay() override;
 
@@ -44,11 +65,21 @@ protected:
 
 	FVector GetMuzzleWorldLocation() const;
 
-	
+	void DecreaseAmmo();
+
+	bool IsAmmoEmpty() const;
+
+	bool IsClipEmpty() const;
+
+	void ChangeClip();
+
+	void LogAmmo();
 
 	void MakeHit(FHitResult &HitResult, const FVector &TraceStart, const FVector &TraceEnd);
 
 	private:
 
 		FTimerHandle ShotTimerHandle;
+
+		FAmmoData CurrentAmmo;
 };
