@@ -18,7 +18,7 @@ ASTUProjectile::ASTUProjectile()
     SetRootComponent(CollisionComponent);
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
-    ProjectileMovementComponent->InitialSpeed = 1500.0f;
+    ProjectileMovementComponent->InitialSpeed = 2000.0f;
     ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 
 }

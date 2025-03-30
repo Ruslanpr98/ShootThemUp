@@ -29,11 +29,8 @@ protected:
   UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
   FName MuzzleSocketName = "MuzzleSocket";
 
-  UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+  UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
   float TraceMaxDistance = 1500.0f;
-
-  UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-  float DamageValue = 10.0f;
 
 	virtual void BeginPlay() override;
 
@@ -50,8 +47,6 @@ protected:
 	
 
 	void MakeHit(FHitResult &HitResult, const FVector &TraceStart, const FVector &TraceEnd);
-
-	void MakeDamage(FHitResult& HitResult);
 
 	private:
 
