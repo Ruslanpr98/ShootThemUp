@@ -22,14 +22,14 @@ void ASTURifleWeapon::StopFire() {
 
 void ASTURifleWeapon::MakeShot() {
     if (!GetWorld() || IsAmmoEmpty()) {
-        StopFire();
+        //StopFire();
         return;
     }
 
     FVector TraceStart, TraceEnd;
 
     if (!GetTraceData(TraceStart, TraceEnd))
-        StopFire();
+        //StopFire();
         return;
 
     FHitResult HitResult;
