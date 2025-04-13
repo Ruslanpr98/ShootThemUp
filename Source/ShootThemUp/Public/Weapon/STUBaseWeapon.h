@@ -29,6 +29,10 @@ public:
 
 	FOnClipEmptySignature OnClipEmpty;
 
+	FWeaponUIData GetUIData() const {
+        return UIData;
+	}
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent *WeaponMesh;
@@ -45,6 +49,10 @@ protected:
 		DefaultAmmo.Clips = 10,
 		DefaultAmmo.Infinite = false
 	};
+
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FWeaponUIData UIData;
 
 	virtual void BeginPlay() override;
 
