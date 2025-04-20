@@ -6,18 +6,10 @@
 #include "Components/STUWeaponComponent.h"
 
 float USTUPlayerHUDWidget::GetHealthPercent() const {
-    const auto Player = GetOwningPlayerPawn();
-
-    if (!Player) {
-        return 0.0f;
-    }
-
-    const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass());
-
-    const auto HealthComponent = Cast<USTUHealthComponent>(Component);
+    const auto HealthComponent = GetHealthComponent();
 
     if (!HealthComponent) {
-        return 0.0f;
+        return false;
     }
 
     return HealthComponent->GetHealthPercent();
@@ -25,13 +17,33 @@ float USTUPlayerHUDWidget::GetHealthPercent() const {
 
 bool USTUPlayerHUDWidget::GetWeaponUIData(FWeaponUIData &UIData) const {
     const auto WeaponComponent = GetWeaponComponent();
+    if (!WeaponComponent) {
+        return false;
+    }
+
     return WeaponComponent->GetWeaponUIData(UIData);
 }
 
 bool USTUPlayerHUDWidget::GetAmmoData(FAmmoData &AmmoData) const {
     const auto WeaponComponent = GetWeaponComponent();
+    if (!WeaponComponent) {
+        return false;
+    }
 
     return WeaponComponent->GetAmmoData(AmmoData);
+}
+
+bool USTUPlayerHUDWidget::IsPlayerAlive() const {
+    const auto HealthComponent = GetHealthComponent();
+
+    return HealthComponent && !HealthComponent->isDead();
+}
+
+bool USTUPlayerHUDWidget::IsPlayerSpectating() const {
+
+    const auto Controller = GetOwningPlayer();
+
+    return Controller && Controller->GetStateName() == NAME_Spectating;
 }
 
 USTUWeaponComponent *USTUPlayerHUDWidget::GetWeaponComponent() const {
@@ -45,8 +57,24 @@ USTUWeaponComponent *USTUPlayerHUDWidget::GetWeaponComponent() const {
 
     const auto WeaponComponent = Cast<USTUWeaponComponent>(Component);
 
-    if (!WeaponComponent) {
-        return nullptr;
-    }
     return WeaponComponent;
 }
+
+USTUHealthComponent *USTUPlayerHUDWidget::GetHealthComponent() const {
+    const auto Player = GetOwningPlayerPawn();
+
+    if (!Player) {
+        return nullptr;
+    }
+
+    const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass());
+
+    const auto HealthComponent = Cast<USTUHealthComponent>(Component);
+
+
+    return HealthComponent;
+}
+
+
+
+

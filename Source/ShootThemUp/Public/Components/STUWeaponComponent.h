@@ -45,22 +45,24 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
     UAnimMontage *EquipAnimMontage;
 
+    int32 CurrentWeaponIndex = 0;
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
-    UPROPERTY()
+    
+  UPROPERTY()
   ASTUBaseWeapon *CurrentWeapon = nullptr;
 
   UPROPERTY()
-  TArray<ASTUBaseWeapon*> Weapons;
+  TArray<ASTUBaseWeapon *> Weapons;
 
   UPROPERTY()
-  UAnimMontage* CurrentReloadAnimMontage = nullptr;
-
-  int32 CurrentWeaponIndex = 0;
+  UAnimMontage *CurrentReloadAnimMontage = nullptr;
+  
 
   bool EquipAnimInProgress = false;
   bool ReloadAnimInProgress = false;

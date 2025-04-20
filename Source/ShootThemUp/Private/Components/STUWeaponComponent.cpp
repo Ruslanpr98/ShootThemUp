@@ -219,7 +219,7 @@ void USTUWeaponComponent::Reload() {
 
 bool USTUWeaponComponent::GetWeaponUIData(FWeaponUIData &UIData) const{
         if (CurrentWeapon) {
-        UIData = CurrentWeapon->GetUIData();
+            UIData = CurrentWeapon->GetUIData();
             return true;
         }
         return false;
