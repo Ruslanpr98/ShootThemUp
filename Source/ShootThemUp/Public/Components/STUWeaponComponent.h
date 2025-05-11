@@ -32,6 +32,8 @@ public:
 
 	bool GetAmmoData(FAmmoData &AmmoData) const;
 
+	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TArray<FWeaponData> WeaponData;
@@ -88,6 +90,6 @@ private:
 
 
 
-	void OnEmptyClip();
+	void OnEmptyClip(ASTUBaseWeapon* AmmoEmptyWeapon);
     void ChangeClip();	
 };
