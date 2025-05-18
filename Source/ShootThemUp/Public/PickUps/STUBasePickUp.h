@@ -19,7 +19,7 @@ public:
 
 protected:
     UPROPERTY(VisibleAnywhere, Category = "PickUp")
-  USphereComponent* CollisionComponent;
+	USphereComponent* CollisionComponent;
 
 
   UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "PickUp")
@@ -35,8 +35,11 @@ public:
 
 private:
 
+	float RotationYaw = 0.0f;
+
     virtual bool GivePickUpTo(APawn *PlayerPawn);
     void PickUpWasTaken();
   void Respawn();
+    void GenerateRotationYaw();
 
 };

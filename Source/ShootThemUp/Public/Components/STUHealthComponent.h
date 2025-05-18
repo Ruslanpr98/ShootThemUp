@@ -22,6 +22,10 @@ public:
         return Health;
     };
 
+	float GetMaxHealth() const {
+        return MaxHealth;
+    };
+
 	UFUNCTION(BlueprintCallable, Category = "Health")
     float isDead() const {
         return FMath::IsNearlyZero(Health);
@@ -34,6 +38,10 @@ public:
 	FOnDeath OnDeath;
 
 	FOnHealthChanged OnHealthChanged;
+
+	bool TryToAddHealth(int32 HealthAmount);
+
+	bool isHeathFull() const;
 
   protected:
 
@@ -51,7 +59,7 @@ public:
     float HealthDelay = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
-    float HealthRegenRate = 1.0f;
+    float HealthRegenRate = 3.0f;
 
 
 	// Called when the game starts

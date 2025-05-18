@@ -13,7 +13,15 @@ UCLASS()
 class SHOOTTHEMUP_API ASTUHealthPickUp : public ASTUBasePickUp {
 	GENERATED_BODY()
 
+
+	protected:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp", meta = (ClampMin = "1.0", ClampMax = "50.0"))
+    int32 HealthAmount = 50;
+
+
 	private:
+
+		
 	virtual bool GivePickUpTo(APawn *PlayerPawn);
 	
 };

@@ -249,7 +249,7 @@ bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, i
         for (const auto Weapon: Weapons) {
             if (Weapon && Weapon->IsA(WeaponType)) {
                 return Weapon->TryToAddAmmo(ClipsAmount);
-            }
+            } 
         }
 
         return false;
