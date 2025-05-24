@@ -18,7 +18,7 @@ public:
 	ASTUBasePickUp();
 
 protected:
-    UPROPERTY(VisibleAnywhere, Category = "PickUp")
+    UPROPERTY(VisibleDefaultsOnly, Category = "PickUp")
 	USphereComponent* CollisionComponent;
 
 
