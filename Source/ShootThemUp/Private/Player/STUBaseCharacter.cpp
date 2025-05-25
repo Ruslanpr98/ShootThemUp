@@ -48,6 +48,7 @@ void ASTUBaseCharacter::BeginPlay()
     check(HealthComponent); //Special Macros for checking if Component is valid (Works only in Dev Mode. Ignored in Shipment)
     check(HealthTextComponent);
     check(GetCharacterMovement());
+    check(GetMesh());
 
     OnHealthChanged(HealthComponent->GetHealth());
     HealthComponent->OnDeath.AddUObject(this, &ASTUBaseCharacter::OnDeath);
@@ -143,7 +144,7 @@ float ASTUBaseCharacter::GetMovementDirection() const {
 void ASTUBaseCharacter::OnDeath() {
     UE_LOG(LogBaseCharacter, Display, TEXT("Player %s is Dead"), *GetName());
 
-    PlayAnimMontage(DeathAnimMontage);
+    //PlayAnimMontage(DeathAnimMontage);
 
     GetCharacterMovement()->DisableMovement();
 
@@ -156,6 +157,9 @@ void ASTUBaseCharacter::OnDeath() {
     GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 
     WeaponComponent->StopFire();
+
+    GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetMesh()->SetSimulatePhysics(true);
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health) {
