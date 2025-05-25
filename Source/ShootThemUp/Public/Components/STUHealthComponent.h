@@ -8,6 +8,7 @@
 #include "STUHealthComponent.generated.h"
 
 
+class UCameraShakeBase;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
@@ -61,6 +62,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
     float HealthRegenRate = 3.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+    TSubclassOf<UCameraShakeBase> CameraShake;
+
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -76,5 +80,7 @@ public:
 
 	void RegenerateHealth();
     void SetHealth(float NewHealth);
+
+	void PlayCameraShake();
 		
 };

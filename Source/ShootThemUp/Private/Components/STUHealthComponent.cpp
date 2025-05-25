@@ -3,8 +3,11 @@
 
 #include "Components/STUHealthComponent.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/Controller.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "Camera/CameraShakeBase.h"
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All)
@@ -28,7 +31,7 @@ void USTUHealthComponent::BeginPlay()
 	check(MaxHealth > 0);
 
 	SetHealth(MaxHealth);
-    OnHealthChanged.Broadcast(Health);
+    //OnHealthChanged.Broadcast(Health, 0.0f);
 	// ...
 	
 	AActor* ComponentOwner = GetOwner();
@@ -55,6 +58,7 @@ void USTUHealthComponent::OnTakeAnyDamage(
         GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USTUHealthComponent::RegenerateHealth,
                                                HealthUpdateTime, true, HealthDelay);
 	}
+    PlayCameraShake();
 }
 
 void USTUHealthComponent::RegenerateHealth() {
@@ -66,8 +70,13 @@ void USTUHealthComponent::RegenerateHealth() {
 }
 
 void USTUHealthComponent::SetHealth(float NewHealth) {
-    Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
-    OnHealthChanged.Broadcast(Health);
+
+	const auto NextHealth = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
+
+	const auto HealthDelta = NextHealth - Health;
+
+    Health = NextHealth;
+    OnHealthChanged.Broadcast(Health, HealthDelta);
 }
 
 
@@ -83,4 +92,25 @@ bool USTUHealthComponent::TryToAddHealth(int32 HealthAmount) {
 
 bool USTUHealthComponent::isHeathFull() const {
     return FMath::IsNearlyEqual(Health, MaxHealth);
+}
+
+
+void USTUHealthComponent::PlayCameraShake() {
+    if (isDead()) {
+        return;
+	}
+
+	const auto Player = Cast<APawn>(GetOwner());
+
+	if (!Player) {
+        return;
+	}
+
+	const auto Controller = Player->GetController<APlayerController>();
+
+	if (!Controller || !Controller->PlayerCameraManager) {
+        return;
+	}
+
+	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
 }
