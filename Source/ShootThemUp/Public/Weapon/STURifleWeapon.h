@@ -8,6 +8,7 @@
 
 class USTUWeaponFXComponent;
 class UNiagaraComponent;
+class UNiagaraSystem;
 
 /**
  * 
@@ -19,6 +20,7 @@ class SHOOTTHEMUP_API ASTURifleWeapon : public ASTUBaseWeapon
 
 public:
     ASTURifleWeapon();
+
     virtual void StartFire() override;
 
 	virtual void StopFire() override;
@@ -38,6 +40,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "VFX")
 	USTUWeaponFXComponent *WeaponFXComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "VFX")
+    UNiagaraSystem* TraceFX;
+
+	UPROPERTY(EditDefaultsOnly, Category = "VFX")
+    FString TraceTargetName = "TraceTarget";
   
 
 	virtual void BeginPlay() override;
@@ -57,5 +65,7 @@ protected:
 
 	void InitMuzzleFX();
     void SetMuzzleFXVisibility(bool Visible);
+
+	void SpawnTraceFX(const FVector &TraceStart, const FVector &TraceEnd);
 	
 };
