@@ -38,4 +38,5 @@ void ASTURocketLauncherWeapon::MakeShot() {
     }
 
     DecreaseAmmo();
+    SpawnMuzzleEffect();
 }

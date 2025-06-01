@@ -7,6 +7,8 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/Character.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 
 
@@ -103,6 +105,8 @@ void ASTUBaseWeapon::MakeHit(FHitResult &HitResult, const FVector &TraceStart, c
 }
 
 
+
+
 void ASTUBaseWeapon::DecreaseAmmo() {
     if (CurrentAmmo.Bullets == 0) {
         UE_LOG(LogBaseWeapon, Display, TEXT("Clip is Empty"));
@@ -182,4 +186,15 @@ void ASTUBaseWeapon::LogAmmo() {
     AmmoInfo += CurrentAmmo.Infinite ? "Infinite" : FString::FromInt(CurrentAmmo.Clips);
 
     UE_LOG(LogBaseWeapon, Display, TEXT("%s"), *AmmoInfo);
+}
+
+
+
+UNiagaraComponent *ASTUBaseWeapon::SpawnMuzzleEffect() {
+    return UNiagaraFunctionLibrary::SpawnSystemAttached(MuzzleFX, //
+        WeaponMesh, //
+        MuzzleSocketName, //
+        FVector::ZeroVector, //
+        FRotator::ZeroRotator, //
+        EAttachLocation::SnapToTarget, true);
 }

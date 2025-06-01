@@ -7,6 +7,7 @@
 #include "STURifleWeapon.generated.h"
 
 class USTUWeaponFXComponent;
+class UNiagaraComponent;
 
 /**
  * 
@@ -49,6 +50,12 @@ protected:
 	private:
     FTimerHandle ShotTimerHandle;
 
+	UPROPERTY()
+	UNiagaraComponent *MuzzleFXComponent;
+
 	void MakeDamage(const FHitResult &HitResult);
+
+	void InitMuzzleFX();
+    void SetMuzzleFXVisibility(bool Visible);
 	
 };
