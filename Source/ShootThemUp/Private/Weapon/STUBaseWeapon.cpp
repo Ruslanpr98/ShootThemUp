@@ -8,7 +8,6 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Character.h"
 #include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
 
 
 
@@ -58,14 +57,29 @@ APlayerController* ASTUBaseWeapon::GetPlayerController() const {
     return Player->GetController<APlayerController>();
 }
 
-bool ASTUBaseWeapon::GetPlayerViewPoint(FVector &ViewLocation, FRotator &ViewRotaion) const {
-    const auto Controller = GetPlayerController();
+bool ASTUBaseWeapon::GetPlayerViewPoint(FVector &ViewLocation, FRotator &ViewRotation) const {
 
-    if (!Controller) {
+    const auto STUCharacter = Cast<ACharacter>(GetOwner()); 
+
+    if (!STUCharacter) {
         return false;
     }
 
-    Controller->GetPlayerViewPoint(ViewLocation, ViewRotaion);
+    if (STUCharacter->IsPlayerControlled()) {
+        const auto Controller = GetPlayerController();
+
+        if (!Controller) {
+            return false;
+        }
+
+        Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
+        return true;
+    }
+    else {
+        ViewLocation = GetMuzzleWorldLocation();
+        ViewRotation = WeaponMesh->GetSocketRotation(MuzzleSocketName);
+    }
+
     return true;
 }
 
@@ -153,7 +167,7 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount) {
     if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0) {
         return false;
     }
-    if (IsAmmoEmpty()) { // кейс, когда магазинов максимум, а патронов нет. Тогда магазинов становится 6 и запускается перезарядка
+    if (IsAmmoEmpty()) { // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 6 пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         UE_LOG(LogBaseWeapon, Display, TEXT("Ammo was empty"));
         CurrentAmmo.Clips = FMath::Clamp(CurrentAmmo.Clips + ClipsAmount, 0, DefaultAmmo.Clips + 1);
         OnClipEmpty.Broadcast(this);

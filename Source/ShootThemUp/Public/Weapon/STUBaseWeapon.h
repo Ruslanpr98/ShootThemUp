@@ -29,6 +29,8 @@ public:
 
 	bool CanReload() const;
 
+    bool IsAmmoEmpty() const;
+
 	FOnClipEmptySignature OnClipEmpty;
 
 	FWeaponUIData GetUIData() const {
@@ -73,13 +75,13 @@ protected:
 
 	APlayerController *GetPlayerController() const;
 
-	bool GetPlayerViewPoint(FVector &ViewLocation, FRotator &ViewRotaion) const;
+	bool GetPlayerViewPoint(FVector &ViewLocation, FRotator &ViewRotation) const;
 
 	FVector GetMuzzleWorldLocation() const;
 
 	void DecreaseAmmo();
 
-	bool IsAmmoEmpty() const;
+	
 
 	bool IsClipEmpty() const;
 

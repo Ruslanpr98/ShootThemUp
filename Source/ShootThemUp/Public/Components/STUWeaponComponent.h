@@ -20,11 +20,11 @@ public:
 	// Sets default values for this component's properties
 	USTUWeaponComponent();
 
-	void StartFire();
+	virtual void StartFire();
 
 	void StopFire();
 
-	void NextWeapon();
+	virtual void NextWeapon();
 	
 	void Reload();
 
@@ -35,6 +35,19 @@ public:
 	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
 
 protected:
+    UPROPERTY()
+    ASTUBaseWeapon *CurrentWeapon = nullptr;
+
+    UPROPERTY()
+    TArray<ASTUBaseWeapon *> Weapons;
+
+
+    bool CanFire() const;
+    bool CanEquip() const;
+
+    
+    void EquipWeapon(int32 WeaponIndex);
+    
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TArray<FWeaponData> WeaponData;
 
@@ -56,11 +69,7 @@ protected:
 
 private:
     
-  UPROPERTY()
-  ASTUBaseWeapon *CurrentWeapon = nullptr;
-
-  UPROPERTY()
-  TArray<ASTUBaseWeapon *> Weapons;
+  
 
   UPROPERTY()
   UAnimMontage *CurrentReloadAnimMontage = nullptr;
@@ -75,7 +84,7 @@ private:
 	void AttachWeaponToSocket(ASTUBaseWeapon *Weapon, USceneComponent *SceneComponent,
                               const FName& WeaponArmorySocketName);
 
-	void EquipWeapon(int32 WeaponIndex);
+	
 
 	void PlayAnimMontage(UAnimMontage* Animation);
 
@@ -84,8 +93,7 @@ private:
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
     void OnReloadFinished(USkeletalMeshComponent *MeshComponent);
 
-	bool CanFire() const;
-    bool CanEquip() const;
+	
     bool CanReload() const;
 
 

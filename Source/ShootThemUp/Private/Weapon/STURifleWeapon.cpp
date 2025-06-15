@@ -35,16 +35,16 @@ void ASTURifleWeapon::StopFire() {
 
 void ASTURifleWeapon::MakeShot() {
     if (!GetWorld() || IsAmmoEmpty()) {
-        //StopFire();
+        StopFire();
         return;
     }
 
     FVector TraceStart, TraceEnd;
 
-    if (!GetTraceData(TraceStart, TraceEnd))
-        //StopFire();
+    if (!GetTraceData(TraceStart, TraceEnd)) {
+        StopFire();
         return;
-
+    }
     
     FHitResult HitResult;
     MakeHit(HitResult, TraceStart, TraceEnd);
