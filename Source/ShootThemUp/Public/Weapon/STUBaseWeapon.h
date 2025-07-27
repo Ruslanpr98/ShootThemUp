@@ -43,6 +43,8 @@ public:
 
 	bool TryToAddAmmo(int32 ClipsAmount);
 
+    bool IsAmmoFull() const;
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent *WeaponMesh;
@@ -84,8 +86,6 @@ protected:
 	
 
 	bool IsClipEmpty() const;
-
-	bool IsAmmoFull() const;
 
 	void LogAmmo();
 
