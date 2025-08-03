@@ -33,7 +33,7 @@ protected:
   USTUWeaponFXComponent *WeaponFXComponent;
 
   UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-  float DamageRadius = 200.0f;
+  float DamageRadius = 300.0f;
 
       UPROPERTY(EditDefaultsOnly, Category = "Weapon") 
 	  float DamageAmount = 50.0f;
