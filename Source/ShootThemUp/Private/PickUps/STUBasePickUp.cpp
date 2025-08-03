@@ -36,6 +36,12 @@ void ASTUBasePickUp::Tick(float DeltaTime)
     AddActorLocalRotation(FRotator(0.0f, RotationYaw, 0.0f));
 }
 
+bool ASTUBasePickUp::CouldBeTaken() const {
+    
+    return !GetWorldTimerManager().IsTimerActive(RespawnTimerHandle);
+    //return CouldBeTakenTest;
+}
+
 bool ASTUBasePickUp::GivePickUpTo(APawn *PlayerPawn) {
     return PlayerPawn != nullptr;
 }
@@ -60,8 +66,6 @@ void ASTUBasePickUp::PickUpWasTaken() {
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     SetActorHiddenInGame(true);
     SetActorEnableCollision(false);
-
-    FTimerHandle RespawnTimerHandle;
 
     GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ASTUBasePickUp::Respawn, RespawnTime);
 }
