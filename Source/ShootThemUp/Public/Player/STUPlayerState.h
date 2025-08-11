@@ -18,8 +18,19 @@ class SHOOTTHEMUP_API ASTUPlayerState : public APlayerState
 
     void SetTeamColor(const FLinearColor& color) {TeamColor = color;}
     FLinearColor GetTeamColor() const {return TeamColor;}
+
+    void AddKill() {++KillsCount;}
+    int32 GetKillsCount() const {return KillsCount;}
+
+    void AddDeath() {++DeathsCount;}
+    int32 GetDeathsCount() const {return DeathsCount;}
+
+    void LogInfo();
 	
 	private:
     int32 TeamID;
-      FLinearColor TeamColor;
+    FLinearColor TeamColor;
+
+    int32 KillsCount = 0;
+    int32 DeathsCount = 0;
 };

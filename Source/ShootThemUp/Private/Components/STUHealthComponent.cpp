@@ -2,11 +2,14 @@
 
 
 #include "Components/STUHealthComponent.h"
+
+#include "HeadMountedDisplayTypes.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Controller.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "STUGameModeBase.h"
 #include "Camera/CameraShakeBase.h"
 
 
@@ -52,6 +55,7 @@ void USTUHealthComponent::OnTakeAnyDamage(
 
 	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	if (isDead()) {
+	    Killed(InstigatedBy);
         OnDeath.Broadcast();
 	} 
 	else if (AutoHeal && GetWorld()) {
@@ -113,4 +117,16 @@ void USTUHealthComponent::PlayCameraShake() {
 	}
 
 	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
+}
+
+void USTUHealthComponent::Killed(AController *Killer) {
+    const auto GameMode = Cast<ASTUGameModeBase>(GetWorld()->GetAuthGameMode());
+
+    if (!GameMode) return;
+
+    const auto Player = Cast<APawn>(GetOwner());
+
+    const auto Victim = Player ? Player->Controller : nullptr;
+
+    GameMode->Killed(Killer, Victim);
 }

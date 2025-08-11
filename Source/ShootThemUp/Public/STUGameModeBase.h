@@ -21,6 +21,8 @@ class SHOOTTHEMUP_API ASTUGameModeBase : public AGameModeBase
 
     virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
 
+    void Killed(AController* Killer, AController* Victim);
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
     TSubclassOf<AAIController> AIControllerClass;
@@ -50,4 +52,6 @@ private:
 
     void ResetPlayers();
     void ResetOnePlayer(AController* Controller);
+
+    void LogPlayerInfo();
 };
