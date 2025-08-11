@@ -41,6 +41,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USTUWeaponComponent *WeaponComponent;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Material")
+    FName MaterialColorName = "Paint Color";
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
     UAnimMontage* DeathAnimMontage;
@@ -69,6 +72,9 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Movement")
     FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
 
+    
+    void SetPlayerColor(const FLinearColor& Color);
+
 
 
 private:
@@ -79,6 +85,8 @@ private:
     void MoveYAxis(float Amount);
     void StartSprint();
     void StopSprint();
+
+
 
 	
     void OnHealthChanged(float Health, float HealthDelta);

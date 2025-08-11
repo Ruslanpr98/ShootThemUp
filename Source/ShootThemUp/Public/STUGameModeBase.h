@@ -42,6 +42,12 @@ private:
     void StartRound();
     void GameTimerUpdate();
 
+    void CreateTeamsInfo();
+
+    FLinearColor DetermineColorByTeamID(int32 TeamID) const;
+
+    void SetPlayerColor(AController* Controller);
+
     void ResetPlayers();
     void ResetOnePlayer(AController* Controller);
 };
