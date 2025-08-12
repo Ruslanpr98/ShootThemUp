@@ -7,6 +7,7 @@
 #include "STUAIController.generated.h"
 
 class USTUAIPerceptionComponent;
+class USTURespawnComponent;
 
 
 UCLASS()
@@ -19,7 +20,10 @@ public:
 	
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-  USTUAIPerceptionComponent *STUAIPerceptionComponent;
+  USTUAIPerceptionComponent* STUAIPerceptionComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+     USTURespawnComponent* RespawnComponent;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
   FName FocusOnKeyName = "EnemyActor";
