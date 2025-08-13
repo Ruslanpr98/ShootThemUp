@@ -31,3 +31,10 @@ void USTURespawnComponent::RespawnTimerUpdate() {
     }
 }
 
+
+bool USTURespawnComponent::isRespawnInProgress() const {
+
+    return GetWorld()->GetTimerManager().IsTimerActive(RespawnTimerHandle);
+}
+
+

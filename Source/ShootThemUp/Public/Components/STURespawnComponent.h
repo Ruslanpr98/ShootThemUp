@@ -16,6 +16,9 @@ public:
 	USTURespawnComponent();
 
     void Respawn(int32 RespawnTime);
+    int32 GetRespawnCountdown() const {return RespawnCountdown;}
+
+    bool isRespawnInProgress() const;
 
 private:
     FTimerHandle RespawnTimerHandle;
