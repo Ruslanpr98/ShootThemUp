@@ -2,8 +2,6 @@
 
 
 #include "Components/STUHealthComponent.h"
-
-#include "HeadMountedDisplayTypes.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Controller.h"
