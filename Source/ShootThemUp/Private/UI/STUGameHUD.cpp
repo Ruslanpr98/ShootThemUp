@@ -2,13 +2,34 @@
 
 #include "UI/STUGameHUD.h"
 #include "Engine/Canvas.h"
+#include "STUGameModeBase.h"
 #include "Blueprint/UserWidget.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogSTUGameHUD, Log, All);
 
 void ASTUGameHUD::DrawHUD() {
 
     Super::DrawHUD();
 
     //DrawCrossHair();
+}
+
+void ASTUGameHUD::BeginPlay() {
+    Super::BeginPlay();
+
+    auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
+
+    if (PlayerHUDWidget) {
+        PlayerHUDWidget->AddToViewport();
+    }
+
+    if(GetWorld()) {
+        const auto GameMode = Cast<ASTUGameModeBase>(GetWorld()->GetAuthGameMode());
+
+        if (GameMode) {
+            GameMode->OnMatchStateChanged.AddUObject(this, &ASTUGameHUD::OnMatchStateChanged);
+        }
+    }
 }
 
 void ASTUGameHUD::DrawCrossHair() {
@@ -26,13 +47,7 @@ void ASTUGameHUD::DrawCrossHair() {
     DrawLine(Center.Min, Center.Max - HalfLineSize, Center.Min, Center.Max + HalfLineSize, HalfLineColor, HalfLineThickness);
 }
 
-void ASTUGameHUD::BeginPlay() {
-    Super::BeginPlay();
-
-    auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
-
-    if (PlayerHUDWidget) {
-        PlayerHUDWidget->AddToViewport();
-    }
+void ASTUGameHUD::OnMatchStateChanged(ESTUMatchState State) {
+    UE_LOG(LogSTUGameHUD, Display, TEXT("Match state changed: %s"), *UEnum::GetValueAsString(State));
 }
 
