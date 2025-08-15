@@ -4,9 +4,6 @@
 #include "Player/STUBaseCharacter.h"
 
 #include "STUPlayerState.h"
-#include "Camera/CameraComponent.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -25,20 +22,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer &ObjInit)
 	PrimaryActorTick.bCanEverTick = true;
 
 
-    SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
-    SpringArmComponent->SetupAttachment(GetRootComponent());
-    SpringArmComponent->bUsePawnControlRotation = true;
-    SpringArmComponent->SocketOffset = FVector(0.0f, 100.0f, 80.0f);
-
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
-    CameraComponent->SetupAttachment(SpringArmComponent);
-
-
     HealthComponent = CreateDefaultSubobject<USTUHealthComponent>("HealthComponent");
-
-    HealthTextComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthTextComponent");
-    HealthTextComponent->SetupAttachment(GetRootComponent());
-    HealthTextComponent->SetOwnerNoSee(true);
 
     WeaponComponent = CreateDefaultSubobject<USTUWeaponComponent>("WeaponComponent");
    
@@ -50,7 +34,6 @@ void ASTUBaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
     check(HealthComponent); //Special Macros for checking if Component is valid (Works only in Dev Mode. Ignored in Shipment)
-    check(HealthTextComponent);
     check(GetCharacterMovement());
     check(GetMesh());
 
@@ -68,69 +51,8 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-    check(PlayerInputComponent);
-    check(WeaponComponent);
-
-
-    PlayerInputComponent->BindAxis("MoveXAxis", this, &ASTUBaseCharacter::MoveXAxis);
-    PlayerInputComponent->BindAxis("MoveYAxis", this, &ASTUBaseCharacter::MoveYAxis);
-    PlayerInputComponent->BindAxis("LookUp", this, &ASTUBaseCharacter::AddControllerPitchInput);
-    PlayerInputComponent->BindAxis("TurnAround", this, &ASTUBaseCharacter::AddControllerYawInput);
-    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASTUBaseCharacter::Jump);
-    PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ASTUBaseCharacter::StartSprint);
-    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ASTUBaseCharacter::StopSprint);
-    PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USTUWeaponComponent::StartFire);
-    PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USTUWeaponComponent::StopFire);
-    PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USTUWeaponComponent::NextWeapon);
-    PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &USTUWeaponComponent::Reload);
-}
-
-void ASTUBaseCharacter::MoveXAxis(float Amount) {
-    isMovingForward = Amount > 0.0f;
-    if (Amount == 0.0f) {
-        return;
-    }
-    AddMovementInput(GetActorForwardVector(), Amount);
-}
-
-void ASTUBaseCharacter::MoveYAxis(float Amount) {
-    if (Amount == 0.0f) {
-        return;
-    }
-    AddMovementInput(GetActorRightVector(), Amount);
-}
-
-void ASTUBaseCharacter::StopSprint() {
-
-    bPressedSprint = false;
-    UCharacterMovementComponent *CharMovement = Cast<UCharacterMovementComponent>(GetCharacterMovement());
-
-    if (!CharMovement) {
-        return;
-    }
-    CharMovement->MaxWalkSpeed = 600.0f;
-}
-
-void ASTUBaseCharacter::StartSprint() {
-    if (!isMovingForward) {
-        return;
-    }
-    bPressedSprint = true;
-    UCharacterMovementComponent *CharMovement = Cast<UCharacterMovementComponent>(GetCharacterMovement());
-
-    if (!CharMovement) {
-        return;
-    } 
-    CharMovement->MaxWalkSpeed = 1000.0f;
-}
-
-
 bool ASTUBaseCharacter::isCharSprinting() const {
-    return bPressedSprint && isMovingForward && (!GetVelocity().IsZero());
+    return false;
 }
 
 float ASTUBaseCharacter::GetMovementDirection() const {
@@ -161,10 +83,6 @@ void ASTUBaseCharacter::OnDeath() {
 
     SetLifeSpan(5.0f);
 
-    if (Controller) {
-        Controller->ChangeState(NAME_Spectating);
-    }
-
     GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 
     WeaponComponent->StopFire();
@@ -174,7 +92,7 @@ void ASTUBaseCharacter::OnDeath() {
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta) {
-    HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
+    
 }
 
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult &Hit) {

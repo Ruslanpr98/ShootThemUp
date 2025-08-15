@@ -7,10 +7,9 @@
 #include "STUBaseCharacter.generated.h"
 
 
-class UCameraComponent;
-class USpringArmComponent;
+
 class USTUHealthComponent;
-class UTextRenderComponent;
+//class UTextRenderComponent;
 class USTUWeaponComponent;
 
 UCLASS()
@@ -24,19 +23,12 @@ public:
 
 protected:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    UCameraComponent *CameraComponent;
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    USpringArmComponent *SpringArmComponent;
-
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USTUHealthComponent* HealthComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    UTextRenderComponent *HealthTextComponent;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    //UTextRenderComponent *HealthTextComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USTUWeaponComponent *WeaponComponent;
@@ -57,11 +49,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	UFUNCTION(BlueprintCallable, Category = "Movement")
-    bool isCharSprinting() const;
+    virtual bool isCharSprinting() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     float GetMovementDirection() const;
@@ -75,19 +64,7 @@ public:
     
     void SetPlayerColor(const FLinearColor& Color);
 
-
-
 private:
-	  bool bPressedSprint = false;
-      bool isMovingForward = false;
-
-	void MoveXAxis(float Amount);
-    void MoveYAxis(float Amount);
-    void StartSprint();
-    void StopSprint();
-
-
-
 	
     void OnHealthChanged(float Health, float HealthDelta);
 
