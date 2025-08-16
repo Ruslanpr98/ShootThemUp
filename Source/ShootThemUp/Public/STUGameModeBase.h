@@ -14,7 +14,7 @@ class SHOOTTHEMUP_API ASTUGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 
-	public:
+public:
     ASTUGameModeBase();
 
     FOnMatchStateChangedSignature OnMatchStateChanged;
@@ -31,6 +31,9 @@ class SHOOTTHEMUP_API ASTUGameModeBase : public AGameModeBase
     int32 GetRoundSecondsRemaining() const {return RoundCountdown;};
 
     void RespawnRequest(AController* Controller);
+
+    virtual bool SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate = FCanUnpause()) override;
+    virtual bool ClearPause() override;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
