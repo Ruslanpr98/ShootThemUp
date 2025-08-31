@@ -33,10 +33,11 @@ class SHOOTTHEMUP_API USTUPlayerHUDWidget : public UUserWidget {
     UFUNCTION(BlueprintImplementableEvent, Category = "UI")
     void OnTakeDamage();
 
-    virtual bool Initialize() override;
-
   private:
     void OnHealthChanged(float Health, float HealthDelta);
 
     void OnNewPawn(APawn* NewPawn);
+
+protected:
+    virtual void NativeOnInitialized() override;
 };
