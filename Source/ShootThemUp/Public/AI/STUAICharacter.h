@@ -7,7 +7,7 @@
 #include "STUAICharacter.generated.h"
 
 class UBehaviorTree;
-
+class UWidgetComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUAICharacter : public ASTUBaseCharacter
@@ -22,5 +22,21 @@ class SHOOTTHEMUP_API ASTUAICharacter : public ASTUBaseCharacter
     UBehaviorTree* BehaviorTreeAsset;
 
     protected:
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    UWidgetComponent *HealthWidgetComponent;
+
+    virtual void Tick(float DeltaTime) override;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI")
+    float HeathVisibilityDistance = 100.0f;
+
+    virtual void BeginPlay() override;
+
+    virtual void OnHealthChanged(float Health, float HealthDelta) override;
+    
     virtual void OnDeath() override;
+
+private:
+    void UpdateHealthWidgetVisibility();
 };

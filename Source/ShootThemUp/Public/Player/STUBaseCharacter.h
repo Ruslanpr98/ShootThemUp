@@ -43,6 +43,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+    virtual void OnHealthChanged(float Health, float HealthDelta);
+
     virtual void OnDeath();
 
 public:	
@@ -66,7 +68,7 @@ public:
 
 private:
 	
-    void OnHealthChanged(float Health, float HealthDelta);
+    
 
 	UFUNCTION()
     void OnGroundLanded(const FHitResult& Hit);
