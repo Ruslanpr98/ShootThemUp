@@ -48,6 +48,10 @@ FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const {
 void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta) {
     if (HealthDelta < 0.0f) {
         OnTakeDamage();
+
+        if(!IsAnimationPlaying(DamageAnimation)) {
+            PlayAnimation(DamageAnimation);
+        }
     }
 
     UpdateHealthBar();

@@ -1,6 +1,8 @@
 // Shoot Them Up Game. All RIghts Reserved.
 
 #include "UI/STUGameHUD.h"
+
+#include "STUBaseWidget.h"
 #include "Engine/Canvas.h"
 #include "STUGameModeBase.h"
 #include "Blueprint/UserWidget.h"
@@ -17,9 +19,9 @@ void ASTUGameHUD::DrawHUD() {
 void ASTUGameHUD::BeginPlay() {
     Super::BeginPlay();
     
-    GameWidgets.Add(ESTUMatchState::InProgress, CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass));
-    GameWidgets.Add(ESTUMatchState::Pause, CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
-    GameWidgets.Add(ESTUMatchState::GameOver, CreateWidget<UUserWidget>(GetWorld(), GameOverWidgetClass));
+    GameWidgets.Add(ESTUMatchState::InProgress, CreateWidget<USTUBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
+    GameWidgets.Add(ESTUMatchState::Pause, CreateWidget<USTUBaseWidget>(GetWorld(), PauseWidgetClass));
+    GameWidgets.Add(ESTUMatchState::GameOver, CreateWidget<USTUBaseWidget>(GetWorld(), GameOverWidgetClass));
 
     for (auto GameWidgetPair : GameWidgets) {
         const auto GameWidget = GameWidgetPair.Value;
@@ -66,6 +68,7 @@ void ASTUGameHUD::OnMatchStateChanged(ESTUMatchState State) {
 
     if(CurrentWidget) {
         CurrentWidget->SetVisibility(ESlateVisibility::Visible);
+        CurrentWidget->Show();
     }
     
     UE_LOG(LogSTUGameHUD, Display, TEXT("Match state changed: %s"), *UEnum::GetValueAsString(State));
