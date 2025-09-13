@@ -15,8 +15,7 @@ class SHOOTTHEMUP_API USTUGameDataWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable, Category = "UI")
-    int32 GetKillsCount() const;
+    
     
     UFUNCTION(BlueprintCallable, Category = "UI")
     int32 GetCurrentRoundsNum() const;

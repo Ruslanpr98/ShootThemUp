@@ -6,11 +6,6 @@
 #include "STUGameModeBase.h"
 #include "Player/STUPlayerState.h"
 
-int32 USTUGameDataWidget::GetKillsCount() const {
-    const auto PlayerState = GetSTUPlayerState();
-    return PlayerState ? PlayerState->GetKillsCount() : 0;
-}
-
 int32 USTUGameDataWidget::GetCurrentRoundsNum() const {
     const auto GameMode = GetSTUGameMode();
     return GameMode ? GameMode->GetCurrentRoundsNum() : 0;
