@@ -2,8 +2,6 @@
 
 
 #include "UI/STUPlayerHUDWidget.h"
-
-#include "HeadMountedDisplayTypes.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "STUUTils.h"

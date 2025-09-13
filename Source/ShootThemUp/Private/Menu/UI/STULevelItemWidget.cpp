@@ -2,8 +2,6 @@
 
 
 #include "Menu/UI/STULevelItemWidget.h"
-
-#include "EditorDirectories.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"

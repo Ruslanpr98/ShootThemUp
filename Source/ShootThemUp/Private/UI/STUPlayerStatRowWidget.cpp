@@ -3,8 +3,6 @@
 
 #include "UI/STUPlayerStatRowWidget.h"
 
-#include "DetailTreeNode.h"
-#include "BaseGizmos/GizmoElementShared.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 
