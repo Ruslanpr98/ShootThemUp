@@ -8,6 +8,7 @@
 
 
 class ASTUProjectile;
+class USoundCue;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTURocketLauncherWeapon : public ASTUBaseWeapon
@@ -22,6 +23,10 @@ class SHOOTTHEMUP_API ASTURocketLauncherWeapon : public ASTUBaseWeapon
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
   TSubclassOf<ASTUProjectile> ProjectileClass;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+    USoundCue* NoAmmoSound;
+
 
   virtual void MakeShot() override;
 

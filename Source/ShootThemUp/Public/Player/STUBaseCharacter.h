@@ -11,6 +11,7 @@
 class USTUHealthComponent;
 //class UTextRenderComponent;
 class USTUWeaponComponent;
+class USoundCue;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
@@ -62,6 +63,9 @@ public:
 
     UPROPERTY(EditDefaultsOnly, Category = "Movement")
     FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+    USoundCue* DeathSound;
 
     
     void SetPlayerColor(const FLinearColor& Color);
