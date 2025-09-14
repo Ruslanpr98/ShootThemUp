@@ -3,13 +3,13 @@
 
 #include "Menu/UI/STUMenuWidget.h"
 
-#include "GeometryTypes.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 #include "STUGameInstance.h"
 #include "Components/HorizontalBox.h"
 #include "Menu/UI/STULevelItemWidget.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogSTUMenuWidget, Log, All);
 
@@ -40,6 +40,8 @@ void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation *
 void USTUMenuWidget::OnStartGame() {
 
     PlayAnimation(HideAnimation);
+
+    UGameplayStatics::PlaySound2D(GetWorld(), StartGameSound);
 }
 
 void USTUMenuWidget::OnQuitGame() {
