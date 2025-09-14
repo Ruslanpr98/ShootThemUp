@@ -3,6 +3,8 @@
 
 #include "PickUps/STUBasePickUp.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBasePickUp, All, All); 
 
@@ -68,6 +70,8 @@ void ASTUBasePickUp::PickUpWasTaken() {
     SetActorEnableCollision(false);
 
     GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ASTUBasePickUp::Respawn, RespawnTime);
+
+    UGameplayStatics::PlaySoundAtLocation(GetWorld(), PickUpTakenSound, GetActorLocation());
 }
 
 void ASTUBasePickUp::Respawn() {
