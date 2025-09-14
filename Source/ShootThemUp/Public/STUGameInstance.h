@@ -7,7 +7,7 @@
 #include "STUCoreTypes.h"
 #include "STUGameInstance.generated.h"
 
-
+class USoundClass;
 
 
 UCLASS()
@@ -34,6 +34,8 @@ public:
         return MenuLevelName;
     }
 
+    void ToggleVolume();
+
     
 protected:
 
@@ -44,6 +46,10 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "Game")
     FName MenuLevelName = NAME_None;
+
+
+    UPROPERTY(EditDefaultsOnly, Category = "Sound")
+    USoundClass* MasterSoundClass;
 
 private:
     FLevelData StartUpLevel;
