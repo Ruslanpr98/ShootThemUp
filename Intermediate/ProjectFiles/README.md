@@ -34,7 +34,7 @@ cd ShootThemUp
 
 - Unreal Engine 5.x 
 
-- Visual Studio с C++ workload или JetBrainds Rider
+- Visual Studio с C++ workload или JetBrains Rider
 
 - Git
 
