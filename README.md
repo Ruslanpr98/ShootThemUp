@@ -1,6 +1,6 @@
 # ShootThemUp
 
-ShootThemUp — небольшой шутер на Unreal Engine 5 с C++ логикой. Проект содержит базовый геймплей: оружие, снаряды, враги, простой искуственный интеллект
+ShootThemUp — небольшой шутер на Unreal Engine 5 с C++ логикой. Проект содержит базовый геймплей: оружие, снаряды, враги, простой искусственный интеллект
 
 
 ### Особенности
@@ -50,7 +50,7 @@ cd ShootThemUp
 
 ## Архитектура
 
-- Source/ — C++ (Projectile, Enemy, Player и т.д.)
+- Source/ — C++ (Components, Player, HUDs, etc.)
 
 - Content/ — ассеты и уровни
 
