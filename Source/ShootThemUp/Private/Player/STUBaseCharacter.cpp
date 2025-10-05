@@ -6,6 +6,7 @@
 #include "STUPlayerState.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/STUHealthComponent.h"
+#include "Components/STUArmorComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SOund/SoundCue.h"
@@ -25,6 +26,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer &ObjInit)
 
 
     HealthComponent = CreateDefaultSubobject<USTUHealthComponent>("HealthComponent");
+    ArmorComponent = CreateDefaultSubobject<USTUArmorComponent>("ArmorComponent");
 
     WeaponComponent = CreateDefaultSubobject<USTUWeaponComponent>("WeaponComponent");
    
@@ -36,6 +38,7 @@ void ASTUBaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
     check(HealthComponent); //Special Macros for checking if Component is valid (Works only in Dev Mode. Ignored in Shipment)
+    check(ArmorComponent);
     check(GetCharacterMovement());
     check(GetMesh());
 

@@ -2,6 +2,7 @@
 
 
 #include "Components/STUHealthComponent.h"
+#include "Components/STUArmorComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
 #include "Engine/World.h"
@@ -47,7 +48,14 @@ void USTUHealthComponent::ApplyDamage(float Damage, AController *InstigatedBy) {
     if (Damage <= 0.0f || isDead() || !GetWorld()) {
         return;
     }
-    SetHealth(Health - Damage);
+    
+    // Check if owner has armor component and process damage through armor first
+    float FinalDamage = Damage;
+    if (const auto ArmorComponent = GetOwner()->FindComponentByClass<USTUArmorComponent>()) {
+        FinalDamage = ArmorComponent->ProcessDamage(Damage);
+    }
+    
+    SetHealth(Health - FinalDamage);
 
     GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
     if (isDead()) {

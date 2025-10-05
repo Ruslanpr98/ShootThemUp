@@ -8,6 +8,24 @@ DECLARE_MULTICAST_DELEGATE(FOnDeath);
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, float);
 
+// Armor Types
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnArmorChanged, float, float);
+
+USTRUCT(BlueprintType)
+struct FArmorData {
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Armor")
+    int32 ArmorAmount;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Armor", meta = (EditCondition = "!Infinite"))
+    int32 ArmorPacks;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Armor")
+    bool Infinite;
+};
+
 // Weapon Types
 
 class ASTUBaseWeapon;
