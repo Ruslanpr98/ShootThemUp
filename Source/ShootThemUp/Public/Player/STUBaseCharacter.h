@@ -9,6 +9,7 @@
 
 
 class USTUHealthComponent;
+class USTUArmorComponent;
 //class UTextRenderComponent;
 class USTUWeaponComponent;
 class USoundCue;
@@ -27,6 +28,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USTUHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    USTUArmorComponent* ArmorComponent;
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     //UTextRenderComponent *HealthTextComponent;

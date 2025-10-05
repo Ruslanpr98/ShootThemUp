@@ -19,6 +19,9 @@ class SHOOTTHEMUP_API USTUPlayerHUDWidget : public USTUBaseWidget {
     UFUNCTION(BlueprintCallable, Category = "Health")
     float GetHealthPercent() const;
 
+    UFUNCTION(BlueprintCallable, Category = "Armor")
+    float GetArmorPercent() const;
+
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool GetWeaponUIData(FWeaponUIData &UIData) const;
 
@@ -42,15 +45,20 @@ class SHOOTTHEMUP_API USTUPlayerHUDWidget : public USTUBaseWidget {
 
   private:
     void OnHealthChanged(float Health, float HealthDelta);
+    void OnArmorChanged(float Armor, float ArmorDelta);
 
     void OnNewPawn(APawn* NewPawn);
 
     void UpdateHealthBar();
+    void UpdateArmorBar();
 
 protected:
 
     UPROPERTY(meta=(BindWidget))
     UProgressBar* HealthProgressBar;
+
+    UPROPERTY(meta=(BindWidget))
+    UProgressBar* ArmorProgressBar;
 
     UPROPERTY(meta=(BindWidgetAnim), Transient)
     UWidgetAnimation* DamageAnimation;

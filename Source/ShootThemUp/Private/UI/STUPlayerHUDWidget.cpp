@@ -3,6 +3,7 @@
 
 #include "UI/STUPlayerHUDWidget.h"
 #include "Components/STUHealthComponent.h"
+#include "Components/STUArmorComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "STUUTils.h"
 #include "Components/ProgressBar.h"
@@ -57,12 +58,18 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta) {
 
 void USTUPlayerHUDWidget::OnNewPawn(APawn* NewPawn) {
     const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(NewPawn);
+    const auto ArmorComponent = STUUtils::GetSTUPlayerComponent<USTUArmorComponent>(NewPawn);
 
     if (HealthComponent) {
         HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
     }
 
+    if (ArmorComponent) {
+        ArmorComponent->OnArmorChanged.AddUObject(this, &USTUPlayerHUDWidget::OnArmorChanged);
+    }
+
     UpdateHealthBar();
+    UpdateArmorBar();
 }
 
 void USTUPlayerHUDWidget::UpdateHealthBar() {
@@ -112,6 +119,26 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const {
     const auto Controller = GetOwningPlayer();
 
     return Controller && Controller->GetStateName() == NAME_Spectating;
+}
+
+void USTUPlayerHUDWidget::OnArmorChanged(float Armor, float ArmorDelta) {
+    UpdateArmorBar();
+}
+
+void USTUPlayerHUDWidget::UpdateArmorBar() {
+    if (ArmorProgressBar) {
+        ArmorProgressBar->SetFillColorAndOpacity(FLinearColor::Blue);
+    }
+}
+
+float USTUPlayerHUDWidget::GetArmorPercent() const {
+    const auto ArmorComponent = STUUtils::GetSTUPlayerComponent<USTUArmorComponent>(GetOwningPlayerPawn());
+
+    if (!ArmorComponent) {
+        return 0.0f;
+    }
+
+    return ArmorComponent->GetArmorPercent();
 }
 
 
